@@ -33,7 +33,7 @@ impl<'a> LuxaforDevice<'a> {
         })
     }
 
-    pub fn solid(self, r: u8, g: u8, b: u8) -> HidResult<usize> {
+    pub fn solid(&self, r: u8, g: u8, b: u8) -> HidResult<usize> {
         self.hid_device.write(&[consts::mode::STATIC, consts::led::ALL, r, g, b])
     }
 }
