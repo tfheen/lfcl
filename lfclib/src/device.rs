@@ -36,4 +36,30 @@ impl<'a> LuxaforDevice<'a> {
     pub fn solid(&self, r: u8, g: u8, b: u8) -> HidResult<usize> {
         self.hid_device.write(&[consts::mode::STATIC, consts::led::ALL, r, g, b])
     }
+
+    pub fn raw(&self, mode: consts::mode::Mode, led: consts::led::Led, r: u8, g: u8, b: u8, extra: &[u8]) -> HidResult<usize> {
+        let mut cmd : Vec<u8> = Vec::new();
+        cmd.push(mode as u8);
+        cmd.push(led as u8);
+        cmd.extend_from_slice(&[r,g,b]);
+        cmd.extend_from_slice(extra);
+        // &[mode as u8, led as u8, r, g, b, x, y]
+        self.hid_device.write(&cmd)
+    }
+
+    pub fn fade(&self, led: consts::led::Led, r: u8, g: u8, b: u8, speed: u8) -> HidResult<usize> {
+        self.raw(consts::mode::Mode::Fade, led, r, g, b, &[speed, 0])
+    }
+
+    pub fn strobe(&self, led: consts::led::Led, r: u8, g: u8, b: u8, speed: u8, repeat: u8) -> HidResult<usize> {
+        self.raw(consts::mode::Mode::Strobe, led, r, g, b, &[speed, 0, repeat])
+    }
+
+    pub fn wave(&self, wave: u8, r: u8, g: u8, b: u8, speed: u8, repeat: u8) -> HidResult<usize> {
+        self.hid_device.write(&[consts::mode::Mode::Wave as u8, wave, r,g,b,0,repeat,speed])
+    }
+
+    pub fn pattern(&self, pattern: u8, repeat: u8) -> HidResult<usize> {
+        self.hid_device.write(&[consts::mode::Mode::Pattern as u8, pattern, repeat, 0,0,0,0])
+    }
 }
