@@ -1,3 +1,12 @@
+#[derive(Copy, Clone)]
+pub enum Mode {
+    Static = 1,
+    Fade,
+    Strobe,
+    Wave,
+    Pattern,
+}
+
 pub const STATIC  : u8 = 1;
 pub const FADE    : u8 = 2;
 pub const STROBE  : u8 = 3;
