@@ -36,5 +36,9 @@ fn main() {
 
     let ctx = LuxaforContext::new().unwrap();
     let device = ctx.open_device(lfclib::consts::FULL_FLAG).unwrap();
-    device.solid(colour[0], colour[1], colour[2]).unwrap();
+    device.solid(0, 0,128);
+    device.strobe(lfclib::consts::led::Led::FrontMiddle, 255,0,0,128, 3);
+//    device.wave(128, 128,128, 128, 128, 128);
+//    device.pattern( 10, 10);
+
 }
